@@ -9,7 +9,6 @@ from telegram.ext.callbackcontext import CallbackContext
 import csv
 import random
 
-
 TOKEN = '1796047189:AAHjg-N-h51PdSM3np0YnPDdRCYrhgBNjek'
 
 
@@ -60,6 +59,7 @@ def command_new_task(update: Update, context: CallbackContext):
            update.message.chat.last_name, update.message.chat.first_name]
 
     writer.writerow(row)
+    update.message.reply_text('Задача успешно сохранена')
 
 
 # команда, отправляет пользователю, что умеет данный бот
@@ -67,21 +67,24 @@ def command_help(update: Update, context: CallbackContext):
     update.message.reply_text('Введите:\n'
                               '1. /euro - для того, чтобы узнать курс евро\n'
                               '2. /dollar - для того, чтобы узнать курс доллара\n'
-                              '3. /new_task - для того, чтобы добавить новую задачу\n'
+                              '3. /new_task <название задачи>- для того, чтобы добавить новую задачу\n'
                               '4. /time - для того, чтобы узнать текущее время\n'
                               '5. /date - для того, чтобы узнать текущую дату\n')
 
 
 # команда, которая в ответ присылает текущее время
 def command_time(update, context):
-    update.message.reply_text(time.asctime().split()[-2])
+    update.message.reply_text(
+        update.message.chat.first_name + ', в данный момент местное время ' + time.asctime().split()[
+            -2])
 
 
 # команда, которая в ответ присылает текущую дату
 def command_date(update, context):
     sp = time.asctime().split()
     ans = [sp[2], sp[1], sp[4]]
-    update.message.reply_text((' ').join(ans))
+    update.message.reply_text(
+        update.message.chat.first_name + ', сегодня с утра было ' + (' ').join(ans))
 
 
 def main():
